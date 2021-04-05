@@ -1,6 +1,7 @@
-import { increment, decrement } from './../counter.actions';
+import { increment, decrement, reset } from './../counter.actions';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Store } from '@ngrx/store';
 
 @Component({
   // tslint:disable-next-line: component-selector
@@ -9,22 +10,24 @@ import { Observable } from 'rxjs';
   styleUrls: ['./my-counter.component.css']
 })
 export class MyCounterComponent {
-  count$!: Observable<number>;
+  count$: Observable<number>;
 
-  constructor() { }
+  constructor(private store: Store<{ count: number }>) {
+    this.count$ = store.select('count');
+  }
 
   // tslint:disable-next-line: typedef
   increment() {
-
+    this.store.dispatch(increment());
   }
 
   // tslint:disable-next-line: typedef
   decrement() {
-
+    this.store.dispatch(decrement());
   }
 
   // tslint:disable-next-line: typedef
   reset() {
-
+    this.store.dispatch(reset());
   }
 }
